@@ -37,6 +37,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun SumScreen(modifier: Modifier = Modifier) {
     var input by remember { mutableStateOf("") }
+    var result by remember { mutableStateOf("") }
 
     Column(
         modifier = modifier
@@ -55,7 +56,12 @@ fun SumScreen(modifier: Modifier = Modifier) {
                 modifier = Modifier.weight(1f)
             )
         }
-        // ШАГ 3: сюда добавим результат и кнопку
+        Spacer(Modifier.height(24.dp))
+        Button(onClick = { result = input }) {
+            Text("Вычислить")
+        }
+        Spacer(Modifier.height(24.dp))
+        Text(text = result, fontSize = 20.sp, textAlign = TextAlign.Center)
     }
 }
 
