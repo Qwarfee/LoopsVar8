@@ -86,3 +86,14 @@ fun findFirstGreater(a: Double): Pair<Int, Double> {
     }
     return Pair(n, sum)
 }
+
+
+// Строит запись суммы: "1 + 1/2 + 1/3" или "1 + 1/2 + 1/3 + … + 1/n"
+fun sumToString(n: Int): String {
+    if (n > 5) return "1 + 1/2 + 1/3 + … + 1/$n"
+    val sb = StringBuilder("1")
+    for (i in 2..n) {
+        sb.append(" + 1/$i")
+    }
+    return sb.toString()
+}
