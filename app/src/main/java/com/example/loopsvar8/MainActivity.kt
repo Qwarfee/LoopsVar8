@@ -39,8 +39,10 @@ fun SumScreen(modifier: Modifier = Modifier) {
     var input by remember { mutableStateOf("") }
     var result by remember { mutableStateOf("") }
     var error by remember { mutableStateOf("") }
+    val focusManager = LocalFocusManager.current
 
     fun onOkClick() {
+        focusManager.clearFocus()
         val text = input.trim().replace(',', '.')
 
         if (text.isEmpty()) {
@@ -87,6 +89,11 @@ fun SumScreen(modifier: Modifier = Modifier) {
                 supportingText = { if (error.isNotEmpty()) Text(error) },
                 label = { Text("Введите число a") },
                 singleLine = true,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Decimal,
+                    imeAction = ImeAction.Done
+                ),
+                keyboardActions = KeyboardActions(onDone = { onOkClick() }),
                 modifier = Modifier.weight(1f)
             )
         }
