@@ -38,6 +38,35 @@ class MainActivity : ComponentActivity() {
 fun SumScreen(modifier: Modifier = Modifier) {
     var input by remember { mutableStateOf("") }
     var result by remember { mutableStateOf("") }
+    var error by remember { mutableStateOf("") }
+
+    fun onOkClick() {
+        val text = input.trim().replace(',', '.')
+
+        if (text.isEmpty()) {
+            error = "Введите число a"
+            result = ""
+            return
+        }
+
+        val a = text.toDoubleOrNull()
+        if (a == null) {
+            error = "Введите действительное число"
+            result = ""
+            return
+        }
+
+        error = ""
+        if (a > MAX_A) {
+            result = "При a > 7 результат не может быть получен"
+            return
+        }
+
+        val (n, sum) = findFirstGreater(a)
+        result = "Первое число, большее a:\n" +
+                "${sumToString(n)} = ${"%.4f".format(sum)}\n" +
+                "Количество слагаемых: $n"
+    }
 
     Column(
         modifier = modifier
@@ -50,14 +79,19 @@ fun SumScreen(modifier: Modifier = Modifier) {
             Spacer(Modifier.width(12.dp))
             OutlinedTextField(
                 value = input,
-                onValueChange = { input = it },
+                onValueChange = {
+                    input = it
+                    error = ""
+                },
+                isError = error.isNotEmpty(),
+                supportingText = { if (error.isNotEmpty()) Text(error) },
                 label = { Text("Введите число a") },
                 singleLine = true,
                 modifier = Modifier.weight(1f)
             )
         }
         Spacer(Modifier.height(24.dp))
-        Button(onClick = { result = input }) {
+        Button(onClick = { onOkClick() }) {
             Text("Вычислить")
         }
         Spacer(Modifier.height(24.dp))
