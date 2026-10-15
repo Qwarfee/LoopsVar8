@@ -70,3 +70,19 @@ fun SumScreen(modifier: Modifier = Modifier) {
 fun SumScreenPreview() {
     SumScreen()
 }
+
+
+const val MAX_A = 7.0
+
+// Ищет первое из чисел 1 + 1/2, 1 + 1/2 + 1/3, ..., которое больше a.
+// Возвращает пару: (номер последнего слагаемого n, сумма)
+fun findFirstGreater(a: Double): Pair<Int, Double> {
+    var sum = 1.0
+    var n = 1
+    while (true) {
+        n++
+        sum += 1.0 / n
+        if (sum > a) break   // нашли — выходим из цикла
+    }
+    return Pair(n, sum)
+}
